@@ -1,0 +1,130 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "Agent Wire Protocol",
+  "colors": {
+    "primary": "#09090b",
+    "light": "#FAFAFA",
+    "dark": "#09090b"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              {
+                "group": "Quickstart",
+                "pages": ["quickstart/build", "quickstart/connect"]
+              },
+              "integrations"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/architecture",
+              "concepts/agents",
+              "concepts/messages",
+              "concepts/state",
+              "concepts/tools",
+              "concepts/events"
+            ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": ["tutorials/building-awp-with-llms", "tutorials/debugging"]
+          },
+          {
+            "group": "Development",
+            "pages": ["development/updates", "development/roadmap", "development/contributing"]
+          }
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "TypeScript",
+            "pages": [
+              {
+                "group": "@agentwire/core",
+                "pages": ["sdk/js/core/overview", "sdk/js/core/types", "sdk/js/core/events"]
+              }
+            ]
+          },
+          {
+            "group": "Python",
+            "pages": [
+              {
+                "group": "agentwire.core",
+                "pages": [
+                  "sdk/python/core/overview",
+                  "sdk/python/core/types",
+                  "sdk/python/core/events"
+                ]
+              },
+              {
+                "group": "agentwire.encoder",
+                "pages": ["sdk/python/encoder/overview"]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "TypeScript SDK",
+          "href": "https://agentwire.io/docs/sdk/js/overview",
+          "icon": "square-js"
+        },
+        {
+          "anchor": "Python SDK",
+          "href": "https://agentwire.io/docs/sdk/python/overview",
+          "icon": "python"
+        },
+        {
+          "anchor": "Specification",
+          "href": "https://spec.agentwire.io",
+          "icon": "book"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "GitHub",
+      "href": "https://github.com/agentwire"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "og:image": "https://raw.githubusercontent.com/agentwire/docs/logo/light.png"
+    },
+    "indexing": "navigable"
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/agentwire"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/quickstart",
+      "destination": "/quickstart/build"
+    }
+  ]
+}

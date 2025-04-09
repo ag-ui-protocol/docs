@@ -1,0 +1,183 @@
+---
+title: Introduction
+description: "Get started with the Agent Wire Protocol (AWP)"
+---
+
+**AWP** standardizes how **front-end applications connect to AI agents** through
+an open protocol. Think of it as a universal translator for AI-driven systems-
+no matter what language an agent speaks: **AWP ensures fluent communication**.
+
+## Why AWP?
+
+AWP helps developers build next-generation AI workflows that need **real-time
+interactivity**, **live state streaming** and **human-in-the-loop
+collaboration**.
+
+AWP provides:
+
+- **A straightforward approach** to integrating AI agents with the front-end
+  through frameworks such as
+  [CopilotKit 🪁](https://github.com/CopilotKit/CopilotKit)
+- **Building blocks** for an efficient wire protocol for human⚡️agent
+  communication
+- **Best practices** for chat, streaming state updates, human-in-the-loop and
+  shared state
+
+### Architecture
+
+At its core, AWP bridges AI agents and front-end applications using a
+lightweight, event-driven protocol:
+
+```mermaid
+flowchart LR
+    subgraph "Frontend"
+        FE["Front-end"]
+    end
+
+    subgraph "Backend"
+        A1["AI Agent A"]
+        P["Secure Proxy"]
+        A2["AI Agent B"]
+        A3["AI Agent C"]
+    end
+
+    FE <-->|"Agent Wire Protocol"| A1
+    FE <-->|"Agent Wire Protocol"| P
+    P <-->|"Agent Wire Protocol"| A2
+    P <-->|"Agent Wire Protocol"| A3
+
+    class P mintStyle;
+    classDef mintStyle fill:#E0F7E9,stroke:#66BB6A,stroke-width:2px,color:#000000;
+
+    %% Apply slight border radius to each node
+    style FE rx:5, ry:5;
+    style A1 rx:5, ry:5;
+    style P rx:5, ry:5;
+    style A2 rx:5, ry:5;
+    style A3 rx:5, ry:5;
+```
+
+- **Front-end**: The application (chat or any AI-enabled app) that communicates
+  over AWP
+- **AI Agent A**: An agent that the front-end can connect to directly without
+  going through the proxy
+- **Secure Proxy**: An intermediary proxy that securely routes requests from the
+  front-end to multiple AI agents
+- **Agents B and C**: Agents managed by the proxy service
+
+## Quick Start
+
+Choose the path that fits your needs:
+
+<CardGroup cols={2}>
+  <Card
+    title="Build with AWP"
+    icon="wrench"
+    href="/quickstart/build"
+    color="#3B82F6"
+    iconType="solid"
+  >
+    Implement AWP events directly in your agent framework
+  </Card>
+  <Card
+    title="Connect to AWP"
+    icon="bolt"
+    href="/quickstart/connect"
+    color="#3B82F6"
+    iconType="solid"
+  >
+    Connect AWP with existing protocols or custom solutions
+  </Card>
+</CardGroup>
+
+## Resources
+
+Explore guides, tools, and integrations to help you build, optimize, and extend
+your AWP implementation. These resources cover everything from practical
+development workflows to debugging techniques.
+
+<CardGroup cols={2}>
+  <Card
+    title="Explore Integrations"
+    icon="cubes"
+    iconType="light"
+    color="#3B82F6"
+    href="/integrations"
+  >
+    Discover ready-to-use AWP integrations across popular agent frameworks and
+    platforms
+  </Card>
+  <Card
+    title="Speed Up with AI"
+    icon="rocket"
+    iconType="light"
+    color="#3B82F6"
+    href="/tutorials/building-awp-with-llms"
+  >
+    Leverage LLMs to build AWP implementations faster
+  </Card>
+  <Card
+    title="Troubleshooting AWP"
+    icon="bug"
+    iconType="light"
+    color="#3B82F6"
+    href="/tutorials/debugging"
+  >
+    Fix common issues when working with AWP servers and clients
+  </Card>
+</CardGroup>
+
+## Explore AWP
+
+Dive deeper into AWP's core concepts and capabilities:
+
+<CardGroup cols={2}>
+  <Card
+    title="Core architecture"
+    icon="sitemap"
+    iconType="light"
+    color="#3B82F6"
+    href="/docs/concepts/architecture"
+  >
+    Understand how AWP connects agents, protocols, and front-ends
+  </Card>
+  {/* <Card title="Resources" icon="database" href="/docs/concepts/resources">
+    Expose data and content from your servers to LLMs
+  </Card>
+  <Card title="Prompts" icon="message" href="/docs/concepts/prompts">
+    Create reusable prompt templates and workflows
+  </Card>
+  <Card title="Tools" icon="wrench" href="/docs/concepts/tools">
+    Enable LLMs to perform actions through your server
+  </Card>
+  <Card title="Sampling" icon="robot" href="/docs/concepts/sampling">
+    Let your servers request completions from LLMs
+  </Card> */}
+  <Card
+    title="Transports"
+    icon="network-wired"
+    iconType="light"
+    color="#3B82F6"
+    href="/docs/concepts/transports"
+  >
+    Learn about AWP's communication mechanism
+  </Card>
+</CardGroup>
+
+## Contributing
+
+Want to contribute? Check out our
+[Contributing Guide](/development/contributing) to learn how you can help
+improve AWP.
+
+## Support and Feedback
+
+Here's how to get help or provide feedback:
+
+- For bug reports and feature requests related to the AWP specification, SDKs,
+  or documentation (open source), please
+  [create a GitHub issue](https://github.com/agentwire)
+- For discussions or Q&A about the AWP specification, use the
+  [specification discussions](https://github.com/agentwire/specification/discussions)
+- For discussions or Q&A about other AWP open source components, use the
+  [organization discussions](https://github.com/orgs/agentwire/discussions)
