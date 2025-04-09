@@ -41,7 +41,11 @@
           },
           {
             "group": "Development",
-            "pages": ["development/updates", "development/roadmap", "development/contributing"]
+            "pages": [
+              "development/updates",
+              "development/roadmap",
+              "development/contributing"
+            ]
           }
         ]
       },
@@ -54,7 +58,11 @@
             "pages": [
               {
                 "group": "@agentwire/core",
-                "pages": ["sdk/js/core/overview", "sdk/js/core/types", "sdk/js/core/events"]
+                "pages": [
+                  "sdk/js/core/overview",
+                  "sdk/js/core/types",
+                  "sdk/js/core/events"
+                ]
               }
             ]
           },
@@ -82,12 +90,12 @@
       "anchors": [
         {
           "anchor": "TypeScript SDK",
-          "href": "https://agentwire.io/docs/sdk/js/overview",
+          "href": "https://docs.agentwire.io/sdk/js/core/overview",
           "icon": "square-js"
         },
         {
           "anchor": "Python SDK",
-          "href": "https://agentwire.io/docs/sdk/python/overview",
+          "href": "https://docs.agentwire.io/sdk/python/core/overview",
           "icon": "python"
         },
         {
