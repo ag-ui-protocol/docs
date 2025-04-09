@@ -37,7 +37,7 @@
           },
           {
             "group": "Tutorials",
-            "pages": ["tutorials/building-awp-with-llms", "tutorials/debugging"]
+            "pages": ["tutorials/cursor", "tutorials/debugging"]
           },
           {
             "group": "Development",
