@@ -63,7 +63,13 @@
                   "sdk/js/core/types",
                   "sdk/js/core/events"
                 ]
-              }
+              },
+              {
+                "group": "@agentwire/client",
+                "pages": ["sdk/js/client/overview"]
+              },
+              "sdk/js/encoder",
+              "sdk/js/proto"
             ]
           },
           {
