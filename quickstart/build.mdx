@@ -1,10 +1,10 @@
 ---
-title: "Build with AWP"
-description: "Implement AWP events directly in your agent framework"
+title: "Build with AG-UI"
+description: "Implement AG-UI events directly in your agent framework"
 ---
 
 In this tutorial, you'll learn how to build an HTTP endpoint that is compatible
-with the [AWP protocol](https://github.com/agentwire).
+with the [AG-UI protocol](https://github.com/ag-ui-protocol).
 
 <Tabs>
 <Tab title="Python">
@@ -27,7 +27,7 @@ poetry new my-endpoint && cd my-endpoint
 Now, let's install the necessary packages:
 
 ```bash
-poetry add agentwire openai fastapi uvicorn
+poetry add ag_ui openai fastapi uvicorn
 ```
 
 ## Create a Basic Endpoint with FastAPI
@@ -37,9 +37,9 @@ Create a new file called `my_endpoint/main.py` with the following code:
 ```python
 from fastapi import FastAPI, Request
 import json
-from agentwire.core.types import RunAgentInput
+from ag_ui.core.types import RunAgentInput
 
-app = FastAPI(title="AWP Endpoint")
+app = FastAPI(title="AG-UI Endpoint")
 
 @app.post("/awp")
 async def my_endpoint():
@@ -70,16 +70,16 @@ You should see the following response:
 { "message": "Hello World" }
 ```
 
-## Parsing AWP Input
+## Parsing AG-UI Input
 
-Next let's update our endpoint to properly parse the incoming AWP request using
-the `RunAgentInput` Pydantic model:
+Next let's update our endpoint to properly parse the incoming AG-UI request
+using the `RunAgentInput` Pydantic model:
 
 ```python
 from fastapi import FastAPI, Request, HTTPException
-from agentwire.core import RunAgentInput, Message
+from ag_ui.core import RunAgentInput, Message
 
-app = FastAPI(title="AWP Endpoint")
+app = FastAPI(title="AG-UI Endpoint")
 
 @app.post("/awp")
 async def my_endpoint(input_data: RunAgentInput):
@@ -94,16 +94,16 @@ Validation Error with details about what went wrong.
 
 ## Add Event Streaming
 
-AWP supports streaming events using Server-Sent Events (SSE). Let's modify our
+AG-UI supports streaming events using Server-Sent Events (SSE). Let's modify our
 `/awp` endpoint to stream events back to the client:
 
 ```python
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import StreamingResponse
-from agentwire.core import RunAgentInput, Message, EventType, RunStartedEvent, RunFinishedEvent
-from agentwire.encoder import EventEncoder
+from ag_ui.core import RunAgentInput, Message, EventType, RunStartedEvent, RunFinishedEvent
+from ag_ui.encoder import EventEncoder
 
-app = FastAPI(title="AWP Endpoint")
+app = FastAPI(title="AG-UI Endpoint")
 
 @app.post("/awp")
 async def my_endpoint(input_data: RunAgentInput):
@@ -140,18 +140,18 @@ if __name__ == "__main__":
 ```
 
 Awesome! We are already sending `RunStartedEvent` and `RunFinishedEvent` events,
-which gives us a basic AWP compliant endpoint. Now let's make it do something
+which gives us a basic AG-UI compliant endpoint. Now let's make it do something
 useful.
 
 ## Implementing Basic Chat
 
 Let's enhance our endpoint to call OpenAI's API and stream the responses back as
-AWP events:
+AG-UI events:
 
 ```python
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
-from agentwire.core import (
+from ag_ui.core import (
   RunAgentInput,
   Message,
   EventType,
@@ -161,11 +161,11 @@ from agentwire.core import (
   TextMessageContentEvent,
   TextMessageEndEvent
 )
-from agentwire.encoder import EventEncoder
+from ag_ui.encoder import EventEncoder
 import uuid
 from openai import OpenAI
 
-app = FastAPI(title="AWP Endpoint")
+app = FastAPI(title="AG-UI Endpoint")
 
 @app.post("/awp")
 async def my_endpoint(input_data: RunAgentInput):
@@ -251,7 +251,7 @@ export OPENAI_API_KEY=your-api-key
 poetry run uvicorn my_endpoint.main:app --reload
 ```
 
-This implementation creates a fully functional AWP endpoint that processes
+This implementation creates a fully functional AG-UI endpoint that processes
 messages and streams back the responses in real-time.
 
 </Tab>
@@ -278,7 +278,7 @@ npx tsc --init
 Install the necessary packages:
 
 ```bash
-npm install express openai @agentwire/core @agentwire/encoder uuid
+npm install express openai @ag-ui/core @ag-ui/encoder uuid
 npm install @types/uuid --save-dev
 ```
 
@@ -323,14 +323,14 @@ You should see the following response:
 { "message": "Hello World" }
 ```
 
-## Parsing AWP Input
+## Parsing AG-UI Input
 
-Next let's update our endpoint to properly parse the incoming AWP request using
-the `RunAgentInput` schema:
+Next let's update our endpoint to properly parse the incoming AG-UI request
+using the `RunAgentInput` schema:
 
 ```typescript
 import express, { Request, Response } from "express"
-import { RunAgentInputSchema, RunAgentInput } from "@agentwire/core"
+import { RunAgentInputSchema, RunAgentInput } from "@ag-ui/core"
 
 const app = express()
 
@@ -351,19 +351,19 @@ app.listen(8000, () => {
 })
 ```
 
-Express with zod validation ensures the incoming request conforms to the AWP
+Express with zod validation ensures the incoming request conforms to the AG-UI
 protocol format. If the request doesn't match the expected format, it will
 return a 422 Validation Error with details about what went wrong.
 
 ## Add Event Streaming
 
-AWP supports streaming events using Server-Sent Events (SSE). Let's modify our
+AG-UI supports streaming events using Server-Sent Events (SSE). Let's modify our
 `/awp` endpoint to stream events back to the client:
 
 ```typescript
 import express, { Request, Response } from "express"
-import { RunAgentInputSchema, RunAgentInput, EventType } from "@agentwire/core"
-import { EventEncoder } from "@agentwire/encoder"
+import { RunAgentInputSchema, RunAgentInput, EventType } from "@ag-ui/core"
+import { EventEncoder } from "@ag-ui/encoder"
 
 const app = express()
 
@@ -413,7 +413,7 @@ app.listen(8000, () => {
 ## Implementing Basic Chat
 
 Let's enhance our endpoint to call OpenAI's API and stream the responses back as
-AWP events:
+AG-UI events:
 
 ```typescript
 import express, { Request, Response } from "express"
@@ -422,8 +422,8 @@ import {
   RunAgentInput,
   EventType,
   Message,
-} from "@agentwire/core"
-import { EventEncoder } from "@agentwire/encoder"
+} from "@ag-ui/core"
+import { EventEncoder } from "@ag-ui/encoder"
 import { OpenAI } from "openai"
 import { v4 as uuidv4 } from "uuid"
 
@@ -455,10 +455,10 @@ app.post("/awp", async (req: Request, res: Response) => {
     // Initialize OpenAI client
     const client = new OpenAI()
 
-    // Convert AWP messages to OpenAI messages format
+    // Convert AG-UI messages to OpenAI messages format
     const openaiMessages = input.messages
       .filter((msg: Message) =>
-        ["user", "system", "assistant"].includes(msg.role),
+        ["user", "system", "assistant"].includes(msg.role)
       )
       .map((msg: Message) => ({
         role: msg.role as "user" | "system" | "assistant",
@@ -531,7 +531,7 @@ export OPENAI_API_KEY=your-api-key
 npx ts-node src/server.ts
 ```
 
-This implementation creates a fully functional AWP endpoint that processes
+This implementation creates a fully functional AG-UI endpoint that processes
 messages and streams back the responses in real-time.
 
 </Tab>

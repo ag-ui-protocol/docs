@@ -1,6 +1,6 @@
-# Agent Wire Protocol Documentation
+# Agent User Interaction Protocol Documentation
 
-The official documentation for the [Agent Wire Protocol](https://agentwire.io).
+The official documentation for the [Agent User Interaction Protocol](https://ag-ui.com).
 
 ### Publishing Changes
 

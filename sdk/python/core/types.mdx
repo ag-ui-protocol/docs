@@ -1,18 +1,19 @@
 ---
 title: "Types"
 description:
-  "Documentation for the core types used in the Agent Wire Protocol Python SDK"
+  "Documentation for the core types used in the Agent User Interaction Protocol
+  Python SDK"
 ---
 
 # Core Types
 
-The Agent Wire Protocol Python SDK is built on a set of core types that
-represent the fundamental structures used throughout the system. This page
+The Agent User Interaction Protocol Python SDK is built on a set of core types
+that represent the fundamental structures used throughout the system. This page
 documents these types and their properties.
 
 ## RunAgentInput
 
-`from agentwire.core import RunAgentInput`
+`from ag_ui.core import RunAgentInput`
 
 Input parameters for running an agent. In the HTTP API, this is the body of the
 `POST` request.
@@ -45,7 +46,7 @@ messages in the system.
 
 ### Role
 
-`from agentwire.core import Role`
+`from ag_ui.core import Role`
 
 Represents the possible roles a message sender can have.
 
@@ -55,7 +56,7 @@ Role = Literal["developer", "system", "assistant", "user", "tool"]
 
 ### DeveloperMessage
 
-`from agentwire.core import DeveloperMessage`
+`from ag_ui.core import DeveloperMessage`
 
 Represents a message from a developer.
 
@@ -74,7 +75,7 @@ class DeveloperMessage(BaseMessage):
 
 ### SystemMessage
 
-`from agentwire.core import SystemMessage`
+`from ag_ui.core import SystemMessage`
 
 Represents a system message.
 
@@ -93,7 +94,7 @@ class SystemMessage(BaseMessage):
 
 ### AssistantMessage
 
-`from agentwire.core import AssistantMessage`
+`from ag_ui.core import AssistantMessage`
 
 Represents a message from an assistant.
 
@@ -114,7 +115,7 @@ class AssistantMessage(BaseMessage):
 
 ### UserMessage
 
-`from agentwire.core import UserMessage`
+`from ag_ui.core import UserMessage`
 
 Represents a message from a user.
 
@@ -133,7 +134,7 @@ class UserMessage(BaseMessage):
 
 ### ToolMessage
 
-`from agentwire.core import ToolMessage`
+`from ag_ui.core import ToolMessage`
 
 Represents a message from a tool.
 
@@ -154,7 +155,7 @@ class ToolMessage(ConfiguredBaseModel):
 
 ### Message
 
-`from agentwire.core import Message`
+`from ag_ui.core import Message`
 
 A union type representing any type of message in the system.
 
@@ -167,7 +168,7 @@ Message = Annotated[
 
 ### ToolCall
 
-`from agentwire.core import ToolCall`
+`from ag_ui.core import ToolCall`
 
 Represents a tool call made by an agent.
 
@@ -186,7 +187,7 @@ class ToolCall(ConfiguredBaseModel):
 
 #### FunctionCall
 
-`from agentwire.core import FunctionCall`
+`from ag_ui.core import FunctionCall`
 
 Represents function name and arguments in a tool call.
 
@@ -203,7 +204,7 @@ class FunctionCall(ConfiguredBaseModel):
 
 ## Context
 
-`from agentwire.core import Context`
+`from ag_ui.core import Context`
 
 Represents a piece of contextual information provided to an agent.
 
@@ -220,7 +221,7 @@ class Context(ConfiguredBaseModel):
 
 ## Tool
 
-`from agentwire.core import Tool`
+`from ag_ui.core import Tool`
 
 Defines a tool that can be called by an agent.
 
@@ -239,7 +240,7 @@ class Tool(ConfiguredBaseModel):
 
 ## State
 
-`from agentwire.core import State`
+`from ag_ui.core import State`
 
 Represents the state of an agent during execution.
 

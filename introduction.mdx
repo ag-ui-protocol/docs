@@ -1,19 +1,20 @@
 ---
 title: Introduction
-description: "Get started with the Agent Wire Protocol (AWP)"
+description: "Get started with the Agent User Interaction Protocol (AG-UI)"
 ---
 
-**AWP** standardizes how **front-end applications connect to AI agents** through
-an open protocol. Think of it as a universal translator for AI-driven systems-
-no matter what language an agent speaks: **AWP ensures fluent communication**.
+**AG-UI** standardizes how **front-end applications connect to AI agents**
+through an open protocol. Think of it as a universal translator for AI-driven
+systems- no matter what language an agent speaks: **AG-UI ensures fluent
+communication**.
 
-## Why AWP?
+## Why AG-UI?
 
-AWP helps developers build next-generation AI workflows that need **real-time
+AG-UI helps developers build next-generation AI workflows that need **real-time
 interactivity**, **live state streaming** and **human-in-the-loop
 collaboration**.
 
-AWP provides:
+AG-UI provides:
 
 - **A straightforward approach** to integrating AI agents with the front-end
   through frameworks such as
@@ -25,7 +26,7 @@ AWP provides:
 
 ### Architecture
 
-At its core, AWP bridges AI agents and front-end applications using a
+At its core, AG-UI bridges AI agents and front-end applications using a
 lightweight, event-driven protocol:
 
 ```mermaid
@@ -41,10 +42,10 @@ flowchart LR
         A3["AI Agent C"]
     end
 
-    FE <-->|"Agent Wire Protocol"| A1
-    FE <-->|"Agent Wire Protocol"| P
-    P <-->|"Agent Wire Protocol"| A2
-    P <-->|"Agent Wire Protocol"| A3
+    FE <-->|"AG-UI Protocol"| A1
+    FE <-->|"AG-UI Protocol"| P
+    P <-->|"AG-UI Protocol"| A2
+    P <-->|"AG-UI Protocol"| A3
 
     class P mintStyle;
     classDef mintStyle fill:#E0F7E9,stroke:#66BB6A,stroke-width:2px,color:#000000;
@@ -58,7 +59,7 @@ flowchart LR
 ```
 
 - **Front-end**: The application (chat or any AI-enabled app) that communicates
-  over AWP
+  over AG-UI
 - **AI Agent A**: An agent that the front-end can connect to directly without
   going through the proxy
 - **Secure Proxy**: An intermediary proxy that securely routes requests from the
@@ -71,29 +72,29 @@ Choose the path that fits your needs:
 
 <CardGroup cols={2}>
   <Card
-    title="Build with AWP"
+    title="Build with AG-UI"
     icon="wrench"
     href="/quickstart/build"
     color="#3B82F6"
     iconType="solid"
   >
-    Implement AWP events directly in your agent framework
+    Implement AG-UI events directly in your agent framework
   </Card>
   <Card
-    title="Connect to AWP"
+    title="Connect to AG-UI"
     icon="bolt"
     href="/quickstart/connect"
     color="#3B82F6"
     iconType="solid"
   >
-    Connect AWP with existing protocols or custom solutions
+    Connect AG-UI with existing protocols or custom solutions
   </Card>
 </CardGroup>
 
 ## Resources
 
 Explore guides, tools, and integrations to help you build, optimize, and extend
-your AWP implementation. These resources cover everything from practical
+your AG-UI implementation. These resources cover everything from practical
 development workflows to debugging techniques.
 
 <CardGroup cols={2}>
@@ -104,7 +105,7 @@ development workflows to debugging techniques.
     color="#3B82F6"
     href="/integrations"
   >
-    Discover ready-to-use AWP integrations across popular agent frameworks and
+    Discover ready-to-use AG-UI integrations across popular agent frameworks and
     platforms
   </Card>
   <Card
@@ -114,22 +115,22 @@ development workflows to debugging techniques.
     color="#3B82F6"
     href="/tutorials/cursor"
   >
-    Use Cursor to build AWP implementations faster
+    Use Cursor to build AG-UI implementations faster
   </Card>
   <Card
-    title="Troubleshooting AWP"
+    title="Troubleshooting AG-UI"
     icon="bug"
     iconType="light"
     color="#3B82F6"
     href="/tutorials/debugging"
   >
-    Fix common issues when working with AWP servers and clients
+    Fix common issues when working with AG-UI servers and clients
   </Card>
 </CardGroup>
 
-## Explore AWP
+## Explore AG-UI
 
-Dive deeper into AWP's core concepts and capabilities:
+Dive deeper into AG-UI's core concepts and capabilities:
 
 <CardGroup cols={2}>
   <Card
@@ -139,7 +140,7 @@ Dive deeper into AWP's core concepts and capabilities:
     color="#3B82F6"
     href="/docs/concepts/architecture"
   >
-    Understand how AWP connects agents, protocols, and front-ends
+    Understand how AG-UI connects agents, protocols, and front-ends
   </Card>
   {/* <Card title="Resources" icon="database" href="/docs/concepts/resources">
     Expose data and content from your servers to LLMs
@@ -160,7 +161,7 @@ Dive deeper into AWP's core concepts and capabilities:
     color="#3B82F6"
     href="/docs/concepts/transports"
   >
-    Learn about AWP's communication mechanism
+    Learn about AG-UI's communication mechanism
   </Card>
 </CardGroup>
 
@@ -168,16 +169,16 @@ Dive deeper into AWP's core concepts and capabilities:
 
 Want to contribute? Check out our
 [Contributing Guide](/development/contributing) to learn how you can help
-improve AWP.
+improve AG-UI.
 
 ## Support and Feedback
 
 Here's how to get help or provide feedback:
 
-- For bug reports and feature requests related to the AWP specification, SDKs,
+- For bug reports and feature requests related to the AG-UI specification, SDKs,
   or documentation (open source), please
-  [create a GitHub issue](https://github.com/agentwire)
-- For discussions or Q&A about the AWP specification, use the
-  [specification discussions](https://github.com/agentwire/specification/discussions)
-- For discussions or Q&A about other AWP open source components, use the
-  [organization discussions](https://github.com/orgs/agentwire/discussions)
+  [create a GitHub issue](https://github.com/ag-ui-protocol)
+- For discussions or Q&A about the AG-UI specification, use the
+  [specification discussions](https://github.com/ag-ui-protocol/specification/discussions)
+- For discussions or Q&A about other AG-UI open source components, use the
+  [organization discussions](https://github.com/orgs/ag-ui-protocol/discussions)

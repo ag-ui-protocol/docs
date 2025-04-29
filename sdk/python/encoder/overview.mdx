@@ -1,24 +1,24 @@
 ---
 title: "Overview"
-description: "Documentation for encoding Agent Wire Protocol events"
+description: "Documentation for encoding Agent User Interaction Protocol events"
 ---
 
 # Event Encoder
 
-The Agent Wire Protocol uses a streaming approach to send events from agents to
-clients. The `EventEncoder` class provides the functionality to encode events
-into a format that can be sent over HTTP.
+The Agent User Interaction Protocol uses a streaming approach to send events
+from agents to clients. The `EventEncoder` class provides the functionality to
+encode events into a format that can be sent over HTTP.
 
 ## EventEncoder
 
-`from agentwire.encoder import EventEncoder`
+`from ag_ui.encoder import EventEncoder`
 
 The `EventEncoder` class is responsible for encoding `BaseEvent` objects into
 string representations that can be transmitted to clients.
 
 ```python
-from agentwire.core import BaseEvent
-from agentwire.encoder import EventEncoder
+from ag_ui.core import BaseEvent
+from ag_ui.encoder import EventEncoder
 
 # Initialize the encoder
 encoder = EventEncoder()
@@ -56,8 +56,8 @@ Encodes an event into a string representation.
 ### Example
 
 ```python
-from agentwire.core import TextMessageContentEvent, EventType
-from agentwire.encoder import EventEncoder
+from ag_ui.core import TextMessageContentEvent, EventType
+from ag_ui.encoder import EventEncoder
 
 # Create an event
 event = TextMessageContentEvent(

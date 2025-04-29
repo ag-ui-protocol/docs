@@ -1,22 +1,23 @@
 ---
 title: "Core architecture"
-description: "Understand how AWP connects front-end applications to AI agents"
+description: "Understand how AG-UI connects front-end applications to AI agents"
 ---
 
-Agent Wire Protocol (AWP) is built on a flexible, event-driven architecture that
-enables seamless, efficient communication between front-end applications and AI
-agents. This document covers the core architectural components and concepts.
+Agent User Interaction Protocol (AG-UI) is built on a flexible, event-driven
+architecture that enables seamless, efficient communication between front-end
+applications and AI agents. This document covers the core architectural
+components and concepts.
 
 ## Overview
 
-AWP follows a client-server architecture that standardizes communication between
-agents and applications:
+AG-UI follows a client-server architecture that standardizes communication
+between agents and applications:
 
 ```mermaid
 flowchart LR
     subgraph "Frontend"
         App["Application"]
-        Client["AWP Client"]
+        Client["AG-UI Client"]
     end
 
     subgraph "Backend"
@@ -27,10 +28,10 @@ flowchart LR
     end
 
     App <--> Client
-    Client <-->|"Agent Wire Protocol"| A1
-    Client <-->|"Agent Wire Protocol"| P
-    P <-->|"Agent Wire Protocol"| A2
-    P <-->|"Agent Wire Protocol"| A3
+    Client <-->|"AG-UI Protocol"| A1
+    Client <-->|"AG-UI Protocol"| P
+    P <-->|"AG-UI Protocol"| A2
+    P <-->|"AG-UI Protocol"| A3
 
     class P mintStyle;
     classDef mintStyle fill:#E0F7E9,stroke:#66BB6A,stroke-width:2px,color:#000000;
@@ -44,8 +45,8 @@ flowchart LR
 ```
 
 - **Application**: User-facing apps (i.e. chat or any AI-enabled application).
-- **AWP Client**: Generic communication clients like `HttpAgent` or specialized
-  clients for connecting to existing protocols.
+- **AG-UI Client**: Generic communication clients like `HttpAgent` or
+  specialized clients for connecting to existing protocols.
 - **Agents**: Backend AI agents that process requests and generate streaming
   responses.
 - **Secure Proxy**: Backend services that provide additional capabilities and
@@ -55,7 +56,7 @@ flowchart LR
 
 ### Protocol layer
 
-AWP's protocol layer provides a flexible foundation for agent communication.
+AG-UI's protocol layer provides a flexible foundation for agent communication.
 
 - **Universal compatibility**: Connect to any protocol by implementing
   `run(input: RunAgentInput) -> Observable<BaseEvent>`
@@ -88,8 +89,8 @@ class MyAgent extends AbstractAgent {
 
 ### Standard HTTP client
 
-AWP offers a standard HTTP client `HttpAgent` that can be used to connect to any
-endpoint that accepts POST requests with a body of type `RunAgentInput` and
+AG-UI offers a standard HTTP client `HttpAgent` that can be used to connect to
+any endpoint that accepts POST requests with a body of type `RunAgentInput` and
 sends a stream of `BaseEvent` objects.
 
 `HttpAgent` supports the following transports:
@@ -105,7 +106,7 @@ sends a stream of `BaseEvent` objects.
 
 ### Message types
 
-AWP defines several event categories for different aspects of agent
+AG-UI defines several event categories for different aspects of agent
 communication:
 
 - **Lifecycle events**
@@ -161,7 +162,7 @@ agent.runAgent({
 
 ## State Management
 
-AWP provides efficient state management through specialized events:
+AG-UI provides efficient state management through specialized events:
 
 - `STATE_SNAPSHOT`: Complete state representation at a point in time
 - `STATE_DELTA`: Incremental state changes using JSON Patch format (RFC 6902)
@@ -172,7 +173,8 @@ transfer.
 
 ## Tools and Handoff
 
-AWP supports agent-to-agent handoff and tool usage through standardized events:
+AG-UI supports agent-to-agent handoff and tool usage through standardized
+events:
 
 - Tool definitions are passed in the `runAgent` parameters
 - Tool calls are streamed as sequences of `TOOL_CALL_START` → `TOOL_CALL_ARGS` →
@@ -181,7 +183,7 @@ AWP supports agent-to-agent handoff and tool usage through standardized events:
 
 ## Events
 
-All communication in AWP is based on typed events. Every event inherits from
+All communication in AG-UI is based on typed events. Every event inherits from
 `BaseEvent`:
 
 ```typescript

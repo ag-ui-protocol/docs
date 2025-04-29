@@ -1,18 +1,19 @@
 ---
 title: "Events"
 description:
-  "Documentation for the events used in the Agent Wire Protocol Python SDK"
+  "Documentation for the events used in the Agent User Interaction Protocol
+  Python SDK"
 ---
 
 # Events
 
-The Agent Wire Protocol Python SDK uses a streaming event-based architecture.
-Events are the fundamental units of communication between agents and the
-frontend. This section documents the event types and their properties.
+The Agent User Interaction Protocol Python SDK uses a streaming event-based
+architecture. Events are the fundamental units of communication between agents
+and the frontend. This section documents the event types and their properties.
 
 ## EventType Enum
 
-`from agentwire.core import EventType`
+`from ag_ui.core import EventType`
 
 The `EventType` enum defines all possible event types in the system:
 
@@ -38,7 +39,7 @@ class EventType(str, Enum):
 
 ## BaseEvent
 
-`from agentwire.core import BaseEvent`
+`from ag_ui.core import BaseEvent`
 
 All events inherit from the `BaseEvent` class, which provides common properties
 shared across all event types.
@@ -62,7 +63,7 @@ These events represent the lifecycle of an agent run.
 
 ### RunStartedEvent
 
-`from agentwire.core import RunStartedEvent`
+`from ag_ui.core import RunStartedEvent`
 
 Signals the start of an agent run.
 
@@ -80,7 +81,7 @@ class RunStartedEvent(BaseEvent):
 
 ### RunFinishedEvent
 
-`from agentwire.core import RunFinishedEvent`
+`from ag_ui.core import RunFinishedEvent`
 
 Signals the successful completion of an agent run.
 
@@ -98,7 +99,7 @@ class RunFinishedEvent(BaseEvent):
 
 ### RunErrorEvent
 
-`from agentwire.core import RunErrorEvent`
+`from ag_ui.core import RunErrorEvent`
 
 Signals an error during an agent run.
 
@@ -116,7 +117,7 @@ class RunErrorEvent(BaseEvent):
 
 ### StepStartedEvent
 
-`from agentwire.core import StepStartedEvent`
+`from ag_ui.core import StepStartedEvent`
 
 Signals the start of a step within an agent run.
 
@@ -132,7 +133,7 @@ class StepStartedEvent(BaseEvent):
 
 ### StepFinishedEvent
 
-`from agentwire.core import StepFinishedEvent`
+`from ag_ui.core import StepFinishedEvent`
 
 Signals the completion of a step within an agent run.
 
@@ -152,7 +153,7 @@ These events represent the lifecycle of text messages in a conversation.
 
 ### TextMessageStartEvent
 
-`from agentwire.core import TextMessageStartEvent`
+`from ag_ui.core import TextMessageStartEvent`
 
 Signals the start of a text message.
 
@@ -170,7 +171,7 @@ class TextMessageStartEvent(BaseEvent):
 
 ### TextMessageContentEvent
 
-`from agentwire.core import TextMessageContentEvent`
+`from ag_ui.core import TextMessageContentEvent`
 
 Represents a chunk of content in a streaming text message.
 
@@ -192,7 +193,7 @@ class TextMessageContentEvent(BaseEvent):
 
 ### TextMessageEndEvent
 
-`from agentwire.core import TextMessageEndEvent`
+`from ag_ui.core import TextMessageEndEvent`
 
 Signals the end of a text message.
 
@@ -212,7 +213,7 @@ These events represent the lifecycle of tool calls made by agents.
 
 ### ToolCallStartEvent
 
-`from agentwire.core import ToolCallStartEvent`
+`from ag_ui.core import ToolCallStartEvent`
 
 Signals the start of a tool call.
 
@@ -232,7 +233,7 @@ class ToolCallStartEvent(BaseEvent):
 
 ### ToolCallArgsEvent
 
-`from agentwire.core import ToolCallArgsEvent`
+`from ag_ui.core import ToolCallArgsEvent`
 
 Represents a chunk of argument data for a tool call.
 
@@ -250,7 +251,7 @@ class ToolCallArgsEvent(BaseEvent):
 
 ### ToolCallEndEvent
 
-`from agentwire.core import ToolCallEndEvent`
+`from ag_ui.core import ToolCallEndEvent`
 
 Signals the end of a tool call.
 
@@ -270,7 +271,7 @@ These events are used to manage agent state.
 
 ### StateSnapshotEvent
 
-`from agentwire.core import StateSnapshotEvent`
+`from ag_ui.core import StateSnapshotEvent`
 
 Provides a complete snapshot of an agent's state.
 
@@ -286,7 +287,7 @@ class StateSnapshotEvent(BaseEvent):
 
 ### StateDeltaEvent
 
-`from agentwire.core import StateDeltaEvent`
+`from ag_ui.core import StateDeltaEvent`
 
 Provides a partial update to an agent's state using JSON Patch.
 
@@ -302,7 +303,7 @@ class StateDeltaEvent(BaseEvent):
 
 ### MessagesSnapshotEvent
 
-`from agentwire.core import MessagesSnapshotEvent`
+`from ag_ui.core import MessagesSnapshotEvent`
 
 Provides a snapshot of all messages in a conversation.
 
@@ -320,7 +321,7 @@ class MessagesSnapshotEvent(BaseEvent):
 
 ### RawEvent
 
-`from agentwire.core import RawEvent`
+`from ag_ui.core import RawEvent`
 
 Used to pass through events from external systems.
 
@@ -338,7 +339,7 @@ class RawEvent(BaseEvent):
 
 ### CustomEvent
 
-`from agentwire.core import CustomEvent`
+`from ag_ui.core import CustomEvent`
 
 Used for application-specific custom events.
 
@@ -356,7 +357,7 @@ class CustomEvent(BaseEvent):
 
 ## Event Discrimination
 
-`from agentwire.core import Event`
+`from ag_ui.core import Event`
 
 The SDK uses Pydantic's discriminated unions for event validation:
 

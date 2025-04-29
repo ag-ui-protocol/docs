@@ -1,13 +1,13 @@
 ---
-title: "Connect to AWP"
-description: "Connect AWP with existing protocols or custom solutions"
+title: "Connect to AG-UI"
+description: "Connect AG-UI with existing protocols or custom solutions"
 ---
 
 In this tutorial, you'll learn how to resurrect one of the first chatbots in
 computer science history—**the famous Eliza, originally created in the 1960s**!
 This not only pays homage to computing's past but also demonstrates how the
-Agent Wire Protocol (AWP) can integrate seamlessly with any protocol. Let's get
-started.
+Agent User Interaction Protocol (AG-UI) can integrate seamlessly with any
+protocol. Let's get started.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ Let's run Eliza in a Docker container and connect to her via `telnet`.
 
 ```bash
 # Pull and run the Eliza Telnet server
-docker build -t eliza:latest https://docs.agentwire.io/quickstart/eliza/Dockerfile
+docker build -t eliza:latest https://docs.ag-ui.io/quickstart/eliza/Dockerfile
 docker run --rm -it -p 2323:2323 eliza:latest
 ```
 
@@ -59,33 +59,33 @@ Connection closed by foreign host.
 ```
 
 Type `quit` to exit Telnet. Congratulations! You've just brought Eliza to life.
-Now let's connect her to the Agent Wire Protocol.
+Now let's connect her to the Agent User Interaction Protocol.
 
-## Bridge Eliza with AWP
+## Bridge Eliza with AG-UI
 
-Now that we have our Eliza server running, let's show how AWP can connect to any
-protocol—in this case, the somewhat arcane Telnet protocol.
+Now that we have our Eliza server running, let's show how AG-UI can connect to
+any protocol—in this case, the somewhat arcane Telnet protocol.
 
 ### Project Setup
 
-Let's create a new project for our AWP bridge:
+Let's create a new project for our AG-UI bridge:
 
 ```bash
 # Create a directory for your project
 mkdir awp-eliza && cd awp-eliza
 npm init -y
-npm install @agentwire/client telnetlib
+npm install @ag-ui/client telnetlib
 npm install -D typescript ts-node @types/node @types/telnetlib
 npx tsc --init --target ES2020 --module CommonJS --strict --esModuleInterop --skipLibCheck --outDir dist --rootDir src
 mkdir src
 ```
 
-### AWP Recap
+### AG-UI Recap
 
-The Agent Wire Protocol is a framework that lets you connect agents to clients
-in a structured, event-driven way. Agents implement the `AbstractAgent` class
-from `@agentwire/client` and emit events for each piece of content, progress,
-etc.
+The Agent User Interaction Protocol is a framework that lets you connect agents
+to clients in a structured, event-driven way. Agents implement the
+`AbstractAgent` class from `@ag-ui/client` and emit events for each piece of
+content, progress, etc.
 
 ### ElizaAgent
 
@@ -94,7 +94,7 @@ We'll create a special agent class, `ElizaAgent`, which:
 1. Launches a Telnet client to connect to our running Eliza server on
    localhost:2323.
 2. Sends the user's last message to Eliza.
-3. Waits for the response, then emits AWP events to deliver that text back.
+3. Waits for the response, then emits AG-UI events to deliver that text back.
 
 Create a file called `src/eliza-agent.ts`:
 
@@ -111,13 +111,13 @@ import {
   TextMessageContentEventSchema,
   TextMessageEndEventSchema,
   RunFinishedEventSchema,
-} from "@agentwire/client"
+} from "@ag-ui/client"
 import { Observable } from "rxjs"
 import * as telnetlib from "telnetlib"
 
 export class ElizaAgent extends AbstractAgent {
   protected run(input: RunAgentInput): RunAgent {
-    // AWP calls `run` each time it wants to generate a response.
+    // AG-UI calls `run` each time it wants to generate a response.
     return () => {
       // Extract user's latest message
 
@@ -132,7 +132,7 @@ export class ElizaAgent extends AbstractAgent {
             type: EventType.RUN_STARTED,
             threadId: input.threadId,
             runId: input.runId,
-          }),
+          })
         )
 
         // Create a new telnet client
@@ -143,7 +143,7 @@ export class ElizaAgent extends AbstractAgent {
           },
           () => {
             console.log("Connected to Eliza telnet server")
-          },
+          }
         )
 
         // Wait for initial greeting and prompt
@@ -163,12 +163,12 @@ export class ElizaAgent extends AbstractAgent {
             // Generate a message ID
             const messageId = Date.now().toString()
 
-            // Emit typical AWP message events
+            // Emit typical AG-UI message events
             observer.next(
               TextMessageStartEventSchema.parse({
                 type: EventType.TEXT_MESSAGE_START,
                 messageId,
-              }),
+              })
             )
 
             observer.next(
@@ -176,14 +176,14 @@ export class ElizaAgent extends AbstractAgent {
                 type: EventType.TEXT_MESSAGE_CONTENT,
                 messageId,
                 delta: response,
-              }),
+              })
             )
 
             observer.next(
               TextMessageEndEventSchema.parse({
                 type: EventType.TEXT_MESSAGE_END,
                 messageId,
-              }),
+              })
             )
 
             // Emit RUN_FINISHED and complete
@@ -192,7 +192,7 @@ export class ElizaAgent extends AbstractAgent {
                 type: EventType.RUN_FINISHED,
                 threadId: input.threadId,
                 runId: input.runId,
-              }),
+              })
             )
 
             // Close the telnet connection
@@ -225,24 +225,24 @@ export class ElizaAgent extends AbstractAgent {
 1. **Connection** We create a TelnetClient and connect to our Eliza Telnet
    server.
 
-2. **User Message** We find the last user message from the AWP input. If none
+2. **User Message** We find the last user message from the AG-UI input. If none
    exists, we default to "Hello, Eliza".
 
 3. **Emitting Events**
 
    - `RUN_STARTED` means the agent started processing the request.
    - `TEXT_MESSAGE_START` / `TEXT_MESSAGE_CONTENT` / `TEXT_MESSAGE_END` together
-     send the agent's textual response to the AWP pipeline.
+     send the agent's textual response to the AG-UI pipeline.
    - `RUN_FINISHED` means this run is over.
 
 4. **Round-Trip**
    - Write the user message to Eliza over Telnet.
    - Listen for the response from Eliza.
-   - Emit that response as AWP events.
+   - Emit that response as AG-UI events.
 
 ## Putting It All Together
 
-Create a main entry point file `src/index.ts` that sets up our AWP agent:
+Create a main entry point file `src/index.ts` that sets up our AG-UI agent:
 
 ```typescript
 // src/index.ts
@@ -254,7 +254,7 @@ elizaAgent.messages = [
   { id: "1", role: "user", content: "I feel anxious about my job." },
 ]
 
-// Example: Make a request to Eliza through AWP
+// Example: Make a request to Eliza through AG-UI
 const run = elizaAgent.runAgent({
   runId: "run1",
 })
@@ -266,32 +266,33 @@ Run the application:
 npx ts-node src/index.ts
 ```
 
-## Bridging AWP to Any Protocol
+## Bridging AG-UI to Any Protocol
 
-This example demonstrates how to bridge AWP with an existing protocol. The key
+This example demonstrates how to bridge AG-UI with an existing protocol. The key
 components are:
 
-1. **AWP Agent Implementation**: Create a class that extends `AbstractAgent` and
-   implements the `run` method.
+1. **AG-UI Agent Implementation**: Create a class that extends `AbstractAgent`
+   and implements the `run` method.
 2. **Implement `run()`**: Set up an agent or connect to an existing protocol.
 3. **Manage agent input**: Send the right input to the agent (in our case, it's
    the user's last message).
-4. **Send events**: Handle the agent's response and emit AWP events.
+4. **Send events**: Handle the agent's response and emit AG-UI events.
 
-You can apply this pattern to connect AWP to virtually any protocol or service:
+You can apply this pattern to connect AG-UI to virtually any protocol or
+service:
 
 - HTTP/REST APIs
 - WebSockets
 - MQTT for IoT devices
 - any other protocol
 
-By following this pattern of creating protocol adapters around your AWP agents,
-you can make your AI agents available through any communication channel while
-maintaining a consistent agent implementation.
+By following this pattern of creating protocol adapters around your AG-UI
+agents, you can make your AI agents available through any communication channel
+while maintaining a consistent agent implementation.
 
 ## Conclusion
 
 Congratulations! You've resurrected the first historical chatbot by serving
-Eliza over Telnet and bridged it to the Agent Wire Protocol. This tutorial
-demonstrates how easy it is to adopt AWP with any existing protocol—be it
-Telnet, WebSocket, custom REST calls, or something entirely else.
+Eliza over Telnet and bridged it to the Agent User Interaction Protocol. This
+tutorial demonstrates how easy it is to adopt AG-UI with any existing
+protocol—be it Telnet, WebSocket, custom REST calls, or something entirely else.

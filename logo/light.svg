@@ -8,8 +8,8 @@
                 <line x1="16.5828221" y1="-1.07552856e-15" x2="43.2453988" y2="62" id="Path-2"></line>
                 <line x1="0" y1="25.9335975" x2="53" y2="8.48421053" id="Path-3"></line>
             </g>
-            <text id="Agent-Wire-Protocol" font-family="Avenir-Medium, Avenir" font-size="50" font-weight="400" letter-spacing="-0.6" fill="#000000">
-                <tspan x="77" y="50">Agent Wire Protocol</tspan>
+            <text id="Agent-User-Interaction-Protocol" font-family="Avenir-Medium, Avenir" font-size="50" font-weight="400" letter-spacing="-0.6" fill="#000000">
+                <tspan x="77" y="50">Agent User Interaction Protocol</tspan>
             </text>
         </g>
     </g>
