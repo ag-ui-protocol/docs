@@ -9,7 +9,7 @@
                 <line x1="0" y1="25.9335975" x2="53" y2="8.48421053" id="Path-3"></line>
             </g>
             <text id="Agent-User-Interaction-Protocol" font-family="Avenir-Medium, Avenir" font-size="50" font-weight="400" letter-spacing="-0.6" fill="#000000">
-                <tspan x="77" y="50">Agent User Interaction Protocol</tspan>
+                <tspan x="77" y="50">AG-UI Protocol</tspan>
             </text>
         </g>
     </g>
