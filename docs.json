@@ -28,11 +28,11 @@
             "group": "Concepts",
             "pages": [
               "concepts/architecture",
+              "concepts/events",
               "concepts/agents",
               "concepts/messages",
               "concepts/state",
-              "concepts/tools",
-              "concepts/events"
+              "concepts/tools"
             ]
           },
           {

@@ -3,11 +3,9 @@ title: "Connect to AG-UI"
 description: "Connect AG-UI with existing protocols or custom solutions"
 ---
 
-In this tutorial, you'll learn how to resurrect one of the first chatbots in
-computer science history—**the famous Eliza, originally created in the 1960s**!
-This not only pays homage to computing's past but also demonstrates how the
-Agent User Interaction Protocol (AG-UI) can integrate seamlessly with any
-protocol. Let's get started.
+In this tutorial, you'll learn how to create an agent that connects to
+**OpenAI's API** and demonstrates how the Agent User Interaction Protocol
+(AG-UI) can integrate seamlessly with any modern AI service. Let's get started.
 
 ## Prerequisites
 
@@ -15,56 +13,24 @@ Make sure to have the following installed:
 
 - [Node.js](https://nodejs.org/) (v16 or later)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Docker](https://www.docker.com/)
-- A telnet client (optional, i.e. `brew install telnet`)
+- An OpenAI API key
 
-## Running Eliza via Docker
+## Setting up OpenAI access
 
-Let's run Eliza in a Docker container and connect to her via `telnet`.
+Before we start coding, make sure you have an OpenAI API key. You can get one by
+signing up at [OpenAI's platform](https://platform.openai.com/).
 
-```bash
-# Pull and run the Eliza Telnet server
-docker build -t eliza:latest https://docs.ag-ui.io/quickstart/eliza/Dockerfile
-docker run --rm -it -p 2323:2323 eliza:latest
-```
-
-Once the container is running, we can connect to Eliza.
+Once you have your API key, set it as an environment variable:
 
 ```bash
-telnet localhost 2323
+# Set your OpenAI API key
+export OPENAI_API_KEY=your-api-key-here
 ```
 
-You should see Eliza greet you with:
+## Bridge OpenAI with AG-UI
 
-```
-$ telnet localhost 2323
-Trying ::1...
-Connected to localhost.
-Escape character is '^]'.
-=====================================================
-ELIZA - The first chatbot (1966) by Joseph Weizenbaum
-Running via Telnet - Type 'quit' to exit
-=====================================================
-
-Hello, I'm Eliza. How can I help you today?
-> How are you?
-What if I were ?
-> What if you were?
-What does this speculation lead to ?
-> I am not sure to be honest.
-Do you enjoy being not sure to be honest ?
-> quit
-Goodbye. It was nice talking to you!
-Connection closed by foreign host.
-```
-
-Type `quit` to exit Telnet. Congratulations! You've just brought Eliza to life.
-Now let's connect her to the Agent User Interaction Protocol.
-
-## Bridge Eliza with AG-UI
-
-Now that we have our Eliza server running, let's show how AG-UI can connect to
-any protocol—in this case, the somewhat arcane Telnet protocol.
+Now let's demonstrate how AG-UI can connect to a modern AI service by
+implementing a bridge to OpenAI's API.
 
 ### Project Setup
 
@@ -72,10 +38,10 @@ Let's create a new project for our AG-UI bridge:
 
 ```bash
 # Create a directory for your project
-mkdir awp-eliza && cd awp-eliza
+mkdir awp-openai && cd awp-openai
 npm init -y
-npm install @ag-ui/client telnetlib
-npm install -D typescript ts-node @types/node @types/telnetlib
+npm install @ag-ui/client openai rxjs
+npm install -D typescript ts-node @types/node
 npx tsc --init --target ES2020 --module CommonJS --strict --esModuleInterop --skipLibCheck --outDir dist --rootDir src
 mkdir src
 ```
@@ -87,19 +53,18 @@ to clients in a structured, event-driven way. Agents implement the
 `AbstractAgent` class from `@ag-ui/client` and emit events for each piece of
 content, progress, etc.
 
-### ElizaAgent
+### OpenAIAgent
 
-We'll create a special agent class, `ElizaAgent`, which:
+We'll create a special agent class, `OpenAIAgent`, which:
 
-1. Launches a Telnet client to connect to our running Eliza server on
-   localhost:2323.
-2. Sends the user's last message to Eliza.
-3. Waits for the response, then emits AG-UI events to deliver that text back.
+1. Connects to OpenAI's API using their official Node.js SDK.
+2. Sends the user's messages to OpenAI.
+3. Streams the response back, emitting AG-UI events for each chunk of text.
 
-Create a file called `src/eliza-agent.ts`:
+Create a file called `src/openai-agent.ts`:
 
 ```typescript
-// src/eliza-agent.ts
+// src/openai-agent.ts
 import {
   AbstractAgent,
   RunAgent,
@@ -111,20 +76,21 @@ import {
   TextMessageContentEventSchema,
   TextMessageEndEventSchema,
   RunFinishedEventSchema,
+  Message,
 } from "@ag-ui/client"
 import { Observable } from "rxjs"
-import * as telnetlib from "telnetlib"
+import { OpenAI } from "openai"
 
-export class ElizaAgent extends AbstractAgent {
+export class OpenAIAgent extends AbstractAgent {
+  private client: OpenAI
+
+  constructor(apiKey?: string) {
+    super()
+    this.client = new OpenAI({ apiKey: apiKey || process.env.OPENAI_API_KEY })
+  }
+
   protected run(input: RunAgentInput): RunAgent {
-    // AG-UI calls `run` each time it wants to generate a response.
     return () => {
-      // Extract user's latest message
-
-      const lastUserMessage =
-        [...input.messages].reverse().find((msg) => msg.role === "user")
-          ?.content || "Hello, Eliza"
-
       return new Observable<BaseEvent>((observer) => {
         // 1) Emit RUN_STARTED
         observer.next(
@@ -135,84 +101,80 @@ export class ElizaAgent extends AbstractAgent {
           })
         )
 
-        // Create a new telnet client
-        const client = telnetlib.createConnection(
-          {
-            host: "127.0.0.1",
-            port: 2323,
-          },
-          () => {
-            console.log("Connected to Eliza telnet server")
-          }
+        // Convert AG-UI messages to OpenAI format
+        const openaiMessages = input.messages
+          .filter((msg: Message) =>
+            ["user", "system", "assistant"].includes(msg.role)
+          )
+          .map((msg: Message) => ({
+            role: msg.role as "user" | "system" | "assistant",
+            content: msg.content || "",
+          }))
+
+        // Generate a message ID for the assistant's response
+        const messageId = Date.now().toString()
+
+        // Emit message start event
+        observer.next(
+          TextMessageStartEventSchema.parse({
+            type: EventType.TEXT_MESSAGE_START,
+            messageId,
+            role: "assistant",
+          })
         )
 
-        // Wait for initial greeting and prompt
-        client.once("data", () => {
-          // Once we receive the greeting, send the user message
-          client.write(lastUserMessage + "\n")
-
-          // Wait for the response from Eliza
-          client.once("data", (data) => {
-            // Get the response, removing the prompt
-            let response = data.toString().trim()
-            // Strip the trailing prompt if present
-            if (response.endsWith(">")) {
-              response = response.substring(0, response.length - 1).trim()
-            }
-
-            // Generate a message ID
-            const messageId = Date.now().toString()
-
-            // Emit typical AG-UI message events
-            observer.next(
-              TextMessageStartEventSchema.parse({
-                type: EventType.TEXT_MESSAGE_START,
-                messageId,
-              })
-            )
-
-            observer.next(
-              TextMessageContentEventSchema.parse({
-                type: EventType.TEXT_MESSAGE_CONTENT,
-                messageId,
-                delta: response,
-              })
-            )
-
-            observer.next(
-              TextMessageEndEventSchema.parse({
-                type: EventType.TEXT_MESSAGE_END,
-                messageId,
-              })
-            )
-
-            // Emit RUN_FINISHED and complete
-            observer.next(
-              RunFinishedEventSchema.parse({
-                type: EventType.RUN_FINISHED,
-                threadId: input.threadId,
-                runId: input.runId,
-              })
-            )
-
-            // Close the telnet connection
-            client.end()
-
-            observer.complete()
+        // Create a streaming completion request
+        this.client.chat.completions
+          .create({
+            model: "gpt-3.5-turbo",
+            messages: openaiMessages,
+            stream: true,
           })
-        })
+          .then(async (stream) => {
+            try {
+              // Process the streaming response
+              for await (const chunk of stream) {
+                if (chunk.choices[0]?.delta?.content) {
+                  const content = chunk.choices[0].delta.content
+                  observer.next(
+                    TextMessageContentEventSchema.parse({
+                      type: EventType.TEXT_MESSAGE_CONTENT,
+                      messageId,
+                      delta: content,
+                    })
+                  )
+                }
+              }
 
-        // Handle errors
-        client.on("error", (err) => {
-          console.error("Telnet client error:", err)
-          observer.error(err)
-        })
+              // Emit message end event
+              observer.next(
+                TextMessageEndEventSchema.parse({
+                  type: EventType.TEXT_MESSAGE_END,
+                  messageId,
+                })
+              )
+
+              // Emit RUN_FINISHED and complete
+              observer.next(
+                RunFinishedEventSchema.parse({
+                  type: EventType.RUN_FINISHED,
+                  threadId: input.threadId,
+                  runId: input.runId,
+                })
+              )
+
+              observer.complete()
+            } catch (error) {
+              observer.error(error)
+            }
+          })
+          .catch((error) => {
+            observer.error(error)
+          })
 
         // Return a cleanup function
         return () => {
-          if (client) {
-            client.end()
-          }
+          // Nothing to clean up for OpenAI
         }
       })
     }
@@ -222,23 +184,23 @@ export class ElizaAgent extends AbstractAgent {
 
 ### Explanation
 
-1. **Connection** We create a TelnetClient and connect to our Eliza Telnet
-   server.
+1. **API Connection**: We create an OpenAI client using the official SDK and
+   connect to OpenAI's API using your API key.
 
-2. **User Message** We find the last user message from the AG-UI input. If none
-   exists, we default to "Hello, Eliza".
+2. **Message Formatting**: We convert AG-UI messages to the format expected by
+   OpenAI.
 
-3. **Emitting Events**
+3. **Emitting Events**:
 
    - `RUN_STARTED` means the agent started processing the request.
    - `TEXT_MESSAGE_START` / `TEXT_MESSAGE_CONTENT` / `TEXT_MESSAGE_END` together
      send the agent's textual response to the AG-UI pipeline.
    - `RUN_FINISHED` means this run is over.
 
-4. **Round-Trip**
-   - Write the user message to Eliza over Telnet.
-   - Listen for the response from Eliza.
-   - Emit that response as AG-UI events.
+4. **Stream Processing**:
+   - We create a streaming completion request to OpenAI.
+   - For each chunk of text received, we emit a `TEXT_MESSAGE_CONTENT` event.
+   - After all chunks are processed, we finalize the message and run.
 
 ## Putting It All Together
 
@@ -246,17 +208,30 @@ Create a main entry point file `src/index.ts` that sets up our AG-UI agent:
 
 ```typescript
 // src/index.ts
-import { ElizaAgent } from "./eliza-agent"
+import { OpenAIAgent } from "./openai-agent"
 
 // Create an instance of our agent
-const elizaAgent = new ElizaAgent()
-elizaAgent.messages = [
-  { id: "1", role: "user", content: "I feel anxious about my job." },
+const openAIAgent = new OpenAIAgent()
+
+// Example: Set up some initial messages
+openAIAgent.messages = [
+  {
+    id: "1",
+    role: "user",
+    content: "What can you tell me about the Agent User Interaction Protocol?",
+  },
 ]
 
-// Example: Make a request to Eliza through AG-UI
-const run = elizaAgent.runAgent({
+// Make a request to OpenAI through AG-UI
+const run = openAIAgent.runAgent({
   runId: "run1",
+})
+
+// Subscribe to the observable to see events
+run.subscribe({
+  next: (event) => console.log("Event:", event),
+  error: (err) => console.error("Error:", err),
+  complete: () => console.log("Stream complete"),
 })
 ```
 
@@ -268,18 +243,18 @@ npx ts-node src/index.ts
 
 ## Bridging AG-UI to Any Protocol
 
-This example demonstrates how to bridge AG-UI with an existing protocol. The key
-components are:
+This example demonstrates how to bridge AG-UI with an external AI service. The
+key components are:
 
 1. **AG-UI Agent Implementation**: Create a class that extends `AbstractAgent`
    and implements the `run` method.
-2. **Implement `run()`**: Set up an agent or connect to an existing protocol.
-3. **Manage agent input**: Send the right input to the agent (in our case, it's
-   the user's last message).
-4. **Send events**: Handle the agent's response and emit AG-UI events.
+2. **API Integration**: Connect to an external API (in this case, OpenAI).
+3. **Message Formatting**: Convert between AG-UI's message format and the API's
+   expected format.
+4. **Event Streaming**: Stream the API responses back as AG-UI events.
 
-You can apply this pattern to connect AG-UI to virtually any protocol or
-service:
+You can apply this pattern to connect AG-UI to virtually any AI service or
+protocol:
 
 - HTTP/REST APIs
 - WebSockets
@@ -287,12 +262,12 @@ service:
 - any other protocol
 
 By following this pattern of creating protocol adapters around your AG-UI
-agents, you can make your AI agents available through any communication channel
-while maintaining a consistent agent implementation.
+agents, you can make your AI agents available through any AI service while
+maintaining a consistent agent implementation.
 
 ## Conclusion
 
-Congratulations! You've resurrected the first historical chatbot by serving
-Eliza over Telnet and bridged it to the Agent User Interaction Protocol. This
-tutorial demonstrates how easy it is to adopt AG-UI with any existing
-protocol—be it Telnet, WebSocket, custom REST calls, or something entirely else.
+Congratulations! You've created an agent that connects to OpenAI's API and
+bridges it to the Agent User Interaction Protocol. This tutorial demonstrates
+how easy it is to adopt AG-UI with any modern AI service—providing a consistent,
+streaming interface for your applications regardless of the backend provider.
