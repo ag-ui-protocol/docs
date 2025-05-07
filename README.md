@@ -66,19 +66,6 @@ Check out the quickstart guide: https://docs.ag-ui.com/quickstart/build
 
 **Custom Solutions:** Implement sophisticated interactions without framework overhead
 
-## Implementation
-
-The protocol maintains flexibility through:
-
-✅ Protocol documentation: https://docs.ag-ui.com/introduction
-
-✅ Currently compatible with LangGraph, CrewAI, Mastra, AG2
-
-✅ Additional framework support coming soon
-
-AgUI connects your agents to interfaces simply and effectively, regardless of your chosen framework or implementation approach.  
-
-👉 Learn more in the [Introduction to AG-UI](https://docs.ag-ui.com/introduction).
 
 ---
 
@@ -105,21 +92,11 @@ Understanding state synchronization between agents and frontends in AG-UI
 
 ---
 
-## ✨ Key Features
-
-- 🌐 **Protocol-first**: Open specification for agent messages, actions, events
-- 🧩 **Composable APIs**: Plug into any React frontend or backend stack
-- 📡 **Real-time streaming**: Event-driven communication between agents
-- 🔄 **Interoperable**: Works with LangGraph, CrewAI, Mastra, AG2
-
----
 
 
 📝 Contributing
 We 💜 contributions! Whether you're fixing bugs, improving documentation, or building demos—your contributions make AG-UI better.
 
-
-✨ Join our Discord community to discuss ideas or get help!
 
 📄 License
 AG-UI is open source under the MIT License.
