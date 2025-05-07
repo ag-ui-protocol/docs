@@ -19,13 +19,27 @@
 
 ## 🚀 What is AG-UI?
 
-**AG-UI** AG-UI is an open, lightweight, event-based protocol that standardizes communication between AI agents and user interfaces. 
+**AG-UI** is an open, lightweight, event-based protocol that standardizes communication between AI agents and user interfaces. 
 
 It creates a clean separation between application interaction layers and backend agent logic.
 
-## 💻 Quick Start
+## Add Your Framework: 
+
+Connect AG-UI with existing protocols or custom solutions
+
+Getting started is easy, simply follow this guide: https://docs.ag-ui.com/quickstart/connect
+
+## 💻 Start Building:
 
 Check out the quickstart guide: https://docs.ag-ui.com/quickstart/build
+
+## Supported Frameworks: 
+- LangGraph
+- CrewAI
+- Mastra
+- AG2
+
+
 
 ## Capabilities
 
