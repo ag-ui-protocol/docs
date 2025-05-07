@@ -22,13 +22,13 @@
 
 It creates a clean separation between application interaction layers and backend agent logic.
 
-## Learn More: 
+## 📚 Learn More: 
 Get started with the Agent User Interaction Protocol (AG-UI)
 https://docs.ag-ui.com/introduction
 
 ![image](https://github.com/user-attachments/assets/7654a81d-191f-416c-bae0-d162bf9356c7)
 
-## Connect to AG-UI: 
+## ✈️ Connect to AG-UI: 
 
 Connect AG-UI with existing protocols or custom solutions
 
@@ -38,7 +38,7 @@ Getting started is easy, simply follow this guide: https://docs.ag-ui.com/quicks
 
 Check out the quickstart guide: https://docs.ag-ui.com/quickstart/build
 
-## Frameworks: 
+## 🏰 Frameworks: 
 
 **LangGraph:** Build agent-native applications with shared state and human-in-the-loop workflows using LangGraph’s powerful orchestration capabilities
 
@@ -49,8 +49,6 @@ Check out the quickstart guide: https://docs.ag-ui.com/quickstart/build
 **Mastra:** Leverage TypeScript for building strongly-typed agent implementations with enhanced developer experience
 
 **AG2:** Utilize the open-source AgentOS for scalable, production-ready agent deployments
-
-
 
 
 
