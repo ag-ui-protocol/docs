@@ -26,6 +26,8 @@ It creates a clean separation between application interaction layers and backend
 Get started with the Agent User Interaction Protocol (AG-UI)
 https://docs.ag-ui.com/introduction
 
+![image](https://github.com/user-attachments/assets/7654a81d-191f-416c-bae0-d162bf9356c7)
+
 ## Connect to AG-UI: 
 
 Connect AG-UI with existing protocols or custom solutions
@@ -48,7 +50,6 @@ Check out the quickstart guide: https://docs.ag-ui.com/quickstart/build
 
 **AG2:** Utilize the open-source AgentOS for scalable, production-ready agent deployments
 
-![image](https://github.com/user-attachments/assets/7654a81d-191f-416c-bae0-d162bf9356c7)
 
 
 
