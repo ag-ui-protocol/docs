@@ -113,7 +113,7 @@
     "primary": {
       "type": "button",
       "label": "GitHub",
-      "href": "https://github.com/ag-ui-protocol"
+      "href": "https://github.com/ag-ui-protocol/ag-ui"
     }
   },
   "seo": {
@@ -124,7 +124,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/ag-ui-protocol"
+      "github": "https://github.com/ag-ui-protocol/ag-ui"
     }
   },
   "redirects": [
