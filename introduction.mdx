@@ -3,7 +3,7 @@ title: Introduction
 description: "Get started with the Agent User Interaction Protocol (AG-UI)"
 ---
 
-**AG-UI** standardizes how **front-end applications connect to AI agents**
+**AG-UI** standardizes how **AI agents connect to front-end applications**
 through an open protocol. Think of it as a universal translator for AI-driven
 systems- no matter what language an agent speaks: **AG-UI ensures fluent
 communication**.
@@ -21,7 +21,7 @@ AG-UI provides:
   [CopilotKit 🪁](https://github.com/CopilotKit/CopilotKit)
 - **Building blocks** for an efficient wire protocol for human⚡️agent
   communication
-- **Best practices** for chat, streaming state updates, human-in-the-loop and
+- **Best practices** for chat, streaming state updates, human-in-the-loop, and
   shared state
 
 ## Existing Integrations
@@ -115,21 +115,20 @@ in two key ways:
 This pragmatic approach makes AG-UI easy to adopt without requiring major
 changes to existing agent implementations or frontend applications.
 
-## Comparison with other protocols
+## Comparison with other agent protocols
 
 AG-UI focuses explicitly and specifically on the agent-user interactivity layer.
 It does not compete with protocols such as A2A (Agent-to-Agent protocol) and MCP
 (Model Context Protocol).
 
-For example, the same agent may communicate with another agent via A2A while
-communicating with the user via AG-UI, and while calling tools provided by an
-MCP server.
+For example, a given AI agent may use MCP to call tools (and get context), A2A to communicate with other agents,
+and AG-UI to collaborate with a user through a frontend application.
 
 These protocols serve complementary purposes in the agent ecosystem:
 
-- **AG-UI**: Handles human-in-the-loop interaction and streaming UI updates
-- **A2A**: Facilitates agent-to-agent communication and collaboration
+- **AG-UI**: Deep agent<>human collaboration - bring agents into frontend applications.
 - **MCP**: Standardizes tool calls and context handling across different models
+- **A2A**: Facilitates agent-to-agent communication and collaboration
 
 ## Quick Start
 
